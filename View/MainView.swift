@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class MainView: UIView {
     
@@ -47,7 +48,7 @@ class MainView: UIView {
     }()
     
     lazy var bottomButtonStack: UIStackView = {
-        let imageStack = UIStackView(arrangedSubviews: imageSV())
+        let imageStack = UIStackView(arrangedSubviews: bottomButtonSV())
         imageStack.axis = .horizontal
         imageStack.alignment = .center
         imageStack.distribution = .equalSpacing
@@ -125,7 +126,7 @@ class MainView: UIView {
         resetButton.setTitleColor(.systemPink, for: .normal)
         resetButton.backgroundColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
         resetButton.layer.cornerRadius = 5.0
-        resetButton.addTarget(self, action: #selector(animateButtonPressed), for: .touchUpInside)
+        resetButton.addTarget(self, action: #selector(resetButtonPressed), for: .touchUpInside)
         //animateButton
         animateButton.setTitle("Animate", for: .normal)
         animateButton.setTitleColor(.systemPink, for: .normal)
@@ -153,7 +154,9 @@ class MainView: UIView {
     
     private func commonInit() {
         constraintAnimationSV()
+        constraintBottomSV()
         constraintImageSV()
+        
     }
     
     
@@ -179,6 +182,21 @@ class MainView: UIView {
             imageStack.trailingAnchor.constraint(equalTo:safeAreaLayoutGuide.trailingAnchor, constant: -20)
         ])
     }
+    
+    private func constraintBottomSV() {
+        addSubview(bottomButtonStack)
+        bottomButtonStack.spacing = 10
+        bottomButtonStack.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            bottomButtonStack.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 25),
+            bottomButtonStack.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -25),
+            bottomButtonStack.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -20)
+        ])
+        
+        
+    }
+    
+    
     
     
     
@@ -217,25 +235,57 @@ class MainView: UIView {
     }
     
     @objc private func animateButtonPressed() {
-        UIView.animate(withDuration: 1.0, delay: 0.0, options: [.curveLinear], animations: {
-            self.image1.transform = CGAffineTransform(translationX: 0, y: 350)
-        }, completion: nil)
-        UIView.animate(withDuration: 1.0, delay: 0.0, options: [.curveEaseIn], animations: {
-            self.image2.transform = CGAffineTransform(translationX: 0, y: 350)
-        }, completion: nil)
+       UIView.animate(withDuration: 1.0, delay: 0.0, options: [.curveLinear], animations: {
+            self.image1.transform = CGAffineTransform(translationX: 0, y: 475)
+        }, completion: { (done) in
+            if done == true{
+                self.image1.image = UIImage(named: "image1-2")
+            }
+        })
+        
         UIView.animate(withDuration: 1.0, delay: 0.0, options: [.curveEaseOut], animations: {
-            self.image3.transform = CGAffineTransform(translationX: 0, y: 350)
-        }, completion: nil)
+            self.image2.transform = CGAffineTransform(translationX: 0, y: 475)
+        }, completion: { (done) in
+            if done == true{
+                self.image2.image = UIImage(named: "image2-2")
+            }
+        })
+        
+        UIView.animate(withDuration: 1.0, delay: 0.0, options: [.curveEaseIn], animations: {
+            self.image3.transform = CGAffineTransform(translationX: 0, y: 475)
+        }, completion: { (done) in
+            if done == true{
+                self.image3.image = UIImage(named: "image1-2")
+            }
+        })
+        
         UIView.animate(withDuration: 1.0, delay: 0.0, options: [.curveEaseInOut], animations: {
-            self.image4.transform = CGAffineTransform(translationX: 0, y: 350)
-        }, completion: nil)
+            self.image4.transform = CGAffineTransform(translationX: 0, y: 475)
+        }, completion: { (done) in
+            if done == true{
+                self.image4.image = UIImage(named: "image2-2")
+            }
+        })
     }
-    
-    
-    
-    
-    
-    
-    
-    
+
+    @objc private func resetButtonPressed() {
+           UIView.animate(withDuration: 1.0, delay: 0.0, options: [.curveLinear], animations: {
+               self.image1.transform = CGAffineTransform(translationX: 0, y: 0)
+           }, completion: nil)
+           UIView.animate(withDuration: 1.0, delay: 0.0, options: [.curveLinear], animations: {
+               self.image2.transform = CGAffineTransform(translationX: 0, y: 0)
+           }, completion: nil)
+           UIView.animate(withDuration: 1.0, delay: 0.0, options: [.curveLinear], animations: {
+               self.image3.transform = CGAffineTransform(translationX: 0, y: 0)
+           }, completion: nil)
+           UIView.animate(withDuration: 1.0, delay: 0.0, options: [.curveLinear], animations: {
+               self.image4.transform = CGAffineTransform(translationX: 0, y: -0)
+           }, completion: nil)
+        
+        image1.image = UIImage(named: "image1")
+        image2.image = UIImage(named: "image2")
+        image3.image = UIImage(named: "image1")
+        image4.image = UIImage(named: "image2")
+       }
+
 }
